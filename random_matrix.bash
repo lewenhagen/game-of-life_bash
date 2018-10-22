@@ -1,9 +1,9 @@
 #!/usr/local/bin/bash
 
 function initMatrixRandom() {
-    for (( i=0;i<=num_rows;i++ ))
+    for (( i=0;i<=NUM_ROWS;i++ ))
     do
-        for (( j=0;j<num_columns;j++ ))
+        for (( j=0;j<NUM_COLUMNS;j++ ))
         do
             rand=$(($RANDOM%50))
             if [ "$rand" -gt "$1" ]
