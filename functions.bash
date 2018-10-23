@@ -23,11 +23,12 @@ function print_matrix() {
     printf "\n"
 }
 
-function tick() {
-    # checkMatrix
+function autoPlay() {
     print_matrix
-    echo "Current tick: $currtick"
-    read -p "q=quit, t=tick, r=restart. Choice: " choice
+}
+
+function presentChoices() {
+    read -p "q=quit, t=tick, r=restart, s=start. Choice: " choice
     if [ "$choice" = "q" ]
     then
         echo "Bye!"
@@ -35,11 +36,49 @@ function tick() {
     elif [ "$choice" = "r" ]
     then
         initMatrixRandom $RAND_VAL
-        ((currtick = 1))
+        ((currtick = 0))
         tick
     elif [ "$choice" = "t" ]
     then
-        ((currtick++))
         tick
+    elif [ "$choice" = "s" ]
+    then
+        while true
+        do
+            tick
+            sleep 2
+        done
     fi
+    presentChoices
+}
+
+function tick() {
+    # checkMatrix
+    print_matrix
+    ((currtick++))
+    echo "--------------------------------------------"
+    echo "Current tick: $currtick"
+    echo "--------------------------------------------"
+    # presentChoices
+    # if [ "$choice" = "q" ]
+    # then
+    #     echo "Bye!"
+    #     exit 0
+    # elif [ "$choice" = "r" ]
+    # then
+    #     initMatrixRandom $RAND_VAL
+    #     ((currtick = 0))
+    #     tick
+    # elif [ "$choice" = "t" ]
+    # then
+    #     tick
+    # elif [ "$choice" = "s" ]
+    # then
+    #     while true
+    #     do
+    #         echo "afgfgfdg"
+    #         tick
+    #         sleep 2
+    #     done
+    # fi
 }
