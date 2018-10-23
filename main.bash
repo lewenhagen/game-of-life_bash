@@ -5,10 +5,10 @@ declare -r DEAD=""
 declare -r LIVE="O"
 declare -r SLEEPER=2
 declare -r GAME=$1
-declare -r NUM_ROWS=10
-declare -r NUM_COLUMNS=20
-declare COMPLETE=0
-# declare -r RAND_VAL=0
+declare -i NUM_ROWS=20
+declare -i NUM_COLUMNS=30
+declare COMPLETE=false
+
 
 let currtick=0
 
