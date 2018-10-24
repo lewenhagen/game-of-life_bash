@@ -1,10 +1,24 @@
 #!/usr/local/bin/bash
 
 function initMatrix() {
-    for (( i=0;i<=NUM_ROWS;i++ ))
-    do
-        for (( j=0;j<NUM_COLUMNS;j++ ))
-        do
+    for (( i=0;i<NUM_ROWS;i++ )); do
+        for (( j=0;j<NUM_COLUMNS;j++ )); do
+            matrix[$i,$j]="$LIVE"
+        done
+    done
+
+    matrix["0,0"]="$LIVE"
+    matrix[4,5]="$LIVE"
+    matrix[6,5]="$LIVE"
+    matrix[3,2]="$LIVE"
+    matrix[3,3]="$LIVE"
+    matrix[1,5]="$LIVE"
+
+}
+
+function clearMatrix() {
+    for (( i=0;i<NUM_ROWS;i++ )); do
+        for (( j=0;j<NUM_COLUMNS;j++ )); do
             matrix[$i,$j]="$DEAD"
         done
     done
@@ -17,18 +31,11 @@ function print_matrix() {
         for (( j=0;j<NUM_COLUMNS;j++ ))
         do
             tput cup $i $j
-            printf "${matrix[$i,$j]}"
+            echo "${matrix[$i,$j]}"
         done
     done
-    printf "\n"
+    # echo "\n"
 }
-
-# function getNeighbours() {
-#     declare -A temp
-#     y=$1
-#     x=$2
-#
-# }
 
 
 function getTopRow() {
@@ -129,7 +136,7 @@ function getBottomRow() {
 }
 
 function checkNeigbours() {
-    AMOUNT=0
+    # AMOUNT=0
     local y=$1
     local x=$2
     local top=0
@@ -138,12 +145,9 @@ function checkNeigbours() {
 
 
 
-    top=$(getTopRow $y $x &)
-    wait
-    middle=$(getMiddleRow $y $x &)
-    wait
-    bottom=$(getBottomRow $y $x &)
-    wait
+    top=$(getTopRow $y $x)
+    middle=$(getMiddleRow $y $x)
+    bottom=$(getBottomRow $y $x)
 
     echo $(($top+$middle+$bottom))
 
@@ -151,31 +155,35 @@ function checkNeigbours() {
 
 
 function checkMatrix() {
+    declare -A tempMatrix
+
     for (( i=0;i<NUM_ROWS;i++ ))
     do
         for (( j=0;j<NUM_COLUMNS;j++ ))
         do
-            # checkNeigbours $i $j&
-            # checkNeigbours $i $j &
-            # wait
-            amount=$(checkNeigbours $i $j &)
-            wait
+            amount=$(checkNeigbours $i $j)
 
             if [[ "$amount" -eq 3 ]]
             then
-                matrix[$i,$j]=$LIVE
+                tempMatrix[$i,$j]=$LIVE
+                # matrix[$i,$j]=$LIVE
             elif [[ "$amount" -lt 2 ]] || [[ "$amount" -gt 3 ]]
             then
-                # cell dies
-                matrix[$i,$j]=$DEAD
-            #     continue
+                tempMatrix[$i,$j]=$DEAD
+            else
+                tempMatrix[$i,$j]=${matrix[$i,$j]}
             fi
+
         done
     done
+    clearMatrix
+    for key in "${!tempMatrix[@]}"; do
+    matrix[$key]=${tempMatrix[$key]}
+done
 }
 
 function presentChoices() {
-    read -p "q=quit, t=tick, r=restart, s=start. Choice: " choice
+    read -p "q=quit, t=tick, r=restart, n=new, s=start. Choice: " choice
     if [ "$choice" = "q" ]
     then
         echo "Bye!"
@@ -183,6 +191,11 @@ function presentChoices() {
     elif [ "$choice" = "r" ]
     then
         initMatrixRandom $RAND_VAL
+        ((currtick = 0))
+        tick
+    elif [ "$choice" = "n" ]
+    then
+        initMatrix
         ((currtick = 0))
         tick
     elif [ "$choice" = "t" ]
@@ -193,7 +206,7 @@ function presentChoices() {
         while [ "$COMPLETE" = "false" ]
         do
             tick
-            sleep 2
+            sleep $SLEEPER
         done
     fi
     presentChoices
