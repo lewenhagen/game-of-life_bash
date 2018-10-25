@@ -1,7 +1,5 @@
 language: bash
 sudo: false
 script:
-  - bash -c 'shopt -s globstar; shellcheck -x **/*.bash'
+  - bash -c 'shopt -s globstar; shellcheck -x main.bash'
   - ./test.sh
-git:
-  submodules: false
