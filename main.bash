@@ -2,7 +2,7 @@
 SCRIPT=$( basename "$0" )
 VERSION="1.0.0"
 
-declare -A matrix
+declare -A MATRIX
 declare -A tempMatrix
 declare -r DEAD=""
 declare -r LIVE="x"

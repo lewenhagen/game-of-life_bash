@@ -3,7 +3,7 @@
 function clearMatrix() {
     for (( i=0;i<NUM_ROWS;i++ )); do
         for (( j=0;j<NUM_COLUMNS;j++ )); do
-            matrix[$i,$j]="$DEAD"
+            MATRIX[$i,$j]="$DEAD"
         done
     done
 }
@@ -15,7 +15,7 @@ function print_matrix() {
     for (( i=0;i<NUM_ROWS;i++ )); do
         for (( j=0;j<NUM_COLUMNS;j++ )); do
             tput cup $i $j
-            echo "${matrix[$i,$j]}"
+            echo "${MATRIX[$i,$j]}"
         done
     done
 }
@@ -42,15 +42,15 @@ function getTopRow() {
         topRightX=0
     fi
 
-    if [[ ${matrix[$topY,$topLeftX]} = "$LIVE" ]]; then
+    if [[ ${MATRIX[$topY,$topLeftX]} = "$LIVE" ]]; then
         ((result++))
     fi
 
-    if [[ ${matrix[$topY,$topMiddleX]} = "$LIVE" ]]; then
+    if [[ ${MATRIX[$topY,$topMiddleX]} = "$LIVE" ]]; then
         ((result++))
     fi
 
-    if [[ ${matrix[$topY,$topRightX]} = "$LIVE" ]]; then
+    if [[ ${MATRIX[$topY,$topRightX]} = "$LIVE" ]]; then
         ((result++))
     fi
 
@@ -73,11 +73,11 @@ function getMiddleRow() {
         rightX=0
     fi
 
-    if [[ ${matrix[$y,$leftX]} = "$LIVE" ]]; then
+    if [[ ${MATRIX[$y,$leftX]} = "$LIVE" ]]; then
         ((result++))
     fi
 
-    if [[ ${matrix[$y,$rightX]} = "$LIVE" ]]; then
+    if [[ ${MATRIX[$y,$rightX]} = "$LIVE" ]]; then
         ((result++))
     fi
 
@@ -106,15 +106,15 @@ function getBottomRow() {
         bottomRightX=0
     fi
 
-    if [[ ${matrix[$bottomY,$bottomLeftX]} = "$LIVE" ]]; then
+    if [[ ${MATRIX[$bottomY,$bottomLeftX]} = "$LIVE" ]]; then
         ((result++))
     fi
 
-    if [[ ${matrix[$bottomY,$bottomMiddleX]} = "$LIVE" ]]; then
+    if [[ ${MATRIX[$bottomY,$bottomMiddleX]} = "$LIVE" ]]; then
         ((result++))
     fi
 
-    if [[ ${matrix[$bottomY,$bottomRightX]} = "$LIVE" ]]; then
+    if [[ ${MATRIX[$bottomY,$bottomRightX]} = "$LIVE" ]]; then
         ((result++))
     fi
 
@@ -149,13 +149,13 @@ function checkMatrix() {
             elif [[ "$amount" -lt 2 ]] || [[ "$amount" -gt 3 ]]; then
                 tempMatrix[$i,$j]=$DEAD
             else
-                tempMatrix[$i,$j]=${matrix[$i,$j]}
+                tempMatrix[$i,$j]=${MATRIX[$i,$j]}
             fi
         done
     done
 
     for key in "${!tempMatrix[@]}"; do
-        matrix[$key]=${tempMatrix[$key]}
+        MATRIX[$key]=${tempMatrix[$key]}
     done
 }
 
