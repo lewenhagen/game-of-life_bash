@@ -372,7 +372,7 @@ function usage
         "--------------------------------------------------------------------------------------------"
     )
 
-    printf "%s\n" "${txt[@]}"
+    printf "%s\\n" "${txt[@]}"
 }
 
 #
@@ -386,9 +386,9 @@ function badUsage
         "$SCRIPT --help"
     )
 
-    [[ $message ]] && printf "%" "$message\n"
+    [[ $message ]] && printf "%" "$message\\n"
 
-    printf "%s\n" "${txt[@]}"
+    printf "%s\\n" "${txt[@]}"
 }
 
 #
@@ -399,7 +399,7 @@ function version
     local txt=(
         "$SCRIPT version $VERSION"
     )
-    printf "%s\n" "${txt[@]}"
+    printf "%s\\n" "${txt[@]}"
 }
 
 
