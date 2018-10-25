@@ -1,7 +1,7 @@
 # target: validate
 .PHONY:  validate
 validate:
-	shellcheck --shell=bash *.bash
+	shellcheck --shell=bash main.bash
 
 # target: test
 .PHONY:  test
