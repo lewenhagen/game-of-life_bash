@@ -3,3 +3,5 @@ sudo: false
 script:
   - bash -c 'shopt -s globstar; shellcheck -x **/*.bash'
   - ./test.sh
+git:
+  submodules: false
