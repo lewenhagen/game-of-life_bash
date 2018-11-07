@@ -386,7 +386,7 @@ function badUsage
         "$SCRIPT --help"
     )
 
-    [[ $message ]] && printf "%" "$message\\n"
+    [[ $message ]] && printf "%s" "$message\\n"
 
     printf "%s\\n" "${txt[@]}"
 }
@@ -409,11 +409,16 @@ do
 
         load)
             shift
-            if [ -z "${1+x}" ] || ! [ "${patterns[$1]+isset}" ]; then
+            if [ -z "${1+x}" ]; then
                 badUsage
                 exit 1
             fi
-            SELECTED_PATTERN=$1
+            if [ "${patterns[$1]+isset}" ]; then
+                SELECTED_PATTERN=$1
+            else
+                echo "No such pattern: $1"
+                exit 1
+            fi
             if ! [[ -z "$2" ]]; then
                 DENSITY=$2
             fi
